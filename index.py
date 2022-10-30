@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from google.cloud.sql.connector import Connector
+from db_connector import connect_to_database, execute_query
 import sqlalchemy
 import pymysql
 import datetime
@@ -73,15 +74,19 @@ pool = sqlalchemy.create_engine(
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    db_connection = connect_to_database()
+    query = "SELECT participant_id, first_name, password FROM Participants;"
+    result = execute_query(db_connection, query).fetchall()
+    return render_template('index.html', rows=result)
 
 @app.route('/login')
 def login():
     return render_template('login.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=['POST', 'GET'])
 def register():
+<<<<<<< HEAD
     return render_template('register.html')
 
 
@@ -116,3 +121,17 @@ if __name__ == '__main__':
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
+=======
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        password = request.form['password']
+        query = "INSERT INTO Participants (first_name, last_name, password) VALUES (%s, %s, %s);"
+        data = (first_name, last_name, password)
+        execute_query(db_connection, query, data)
+        return redirect('/index')
+
+    # elif request.method == 'GET':
+    # Under Construction
+>>>>>>> b45d4e2 (Added changes from previous commit message.)
