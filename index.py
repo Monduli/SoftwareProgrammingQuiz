@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, render_template, request, redirect, url_for
 from google.cloud.sql.connector import Connector
 from db_connector import connect_to_database, execute_query
@@ -5,6 +6,10 @@ import sqlalchemy
 import pymysql
 import datetime
 import json
+=======
+# from flask import Flask, render_template, request, redirect
+# from db_connector import connect_to_database, execute_query
+>>>>>>> 64b934e (Update index.py)
 
 app = Flask(__name__)
 
