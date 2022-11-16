@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+import flask
+from flask import render_template, request, redirect, url_for
 from google.cloud.sql.connector import Connector
 from db_connector import connect_to_database, execute_query
 import sqlalchemy
@@ -6,7 +7,7 @@ import pymysql
 import datetime
 import json
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 # initialize Connector object
 connector = Connector()
@@ -79,6 +80,9 @@ pool = sqlalchemy.create_engine(
 #     result = execute_query(db_connection, query).fetchall()
 #     return render_template('index.html', rows=result)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
@@ -87,7 +91,6 @@ def login():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-
     return render_template('register.html')
 
 
